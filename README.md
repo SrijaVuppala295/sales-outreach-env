@@ -235,6 +235,15 @@ Run the server locally for development:
 uvicorn server.app:app --reload
 ```
 
+### Environment Variables
+
+Copy `.env.example` to `.env` and fill in your local values before running `inference.py`:
+
+- `API_BASE_URL`
+- `MODEL_NAME`
+- `HF_TOKEN`
+- `LOCAL_IMAGE_NAME` is optional
+
 ## Project Structure
 
 ```
