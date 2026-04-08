@@ -1,0 +1,44 @@
+spec_version: 1
+name: sales_outreach_env
+type: space
+runtime: fastapi
+app: server.app:app
+port: 8000
+
+# # spec_version: 1
+# # name: sales_outreach_env
+# # type: space
+# # runtime: fastapi
+# # app: server.app:app
+# # port: 8000
+
+# # openenv.yaml
+# # Mandatory metadata file — must pass: openenv validate
+# # Judges run this validation as part of the automated gate
+
+# name: sales_outreach_env
+# version: "1.0.0"
+# description: >
+#   A real-world RL environment for training AI agents to write
+#   effective B2B sales outreach. Simulates cold emailing, multi-step
+#   sequences, and objection handling with deterministic reward graders.
+
+# tasks:
+#   - name: cold_email
+#     difficulty: easy
+#     description: Write a single personalized cold email to a lead
+#     max_steps: 1
+
+#   - name: full_sequence
+#     difficulty: medium
+#     description: Send a 3-step outreach sequence (email → LinkedIn → follow-up)
+#     max_steps: 3
+
+#   - name: objection_handling
+#     difficulty: hard
+#     description: Handle a realistic lead objection and re-engage
+#     max_steps: 3
+
+# reward_range: [0.0, 1.0]
+# observation_type: text
+# action_type: text
