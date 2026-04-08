@@ -1,3 +1,158 @@
+# Sales Outreach Sequencing Environment
+
+Hackathon submission guide for the sales outreach environment in this repo.
+
+This README is the authoritative guide for reviewers and for you when running the project locally.
+The older starter-template echo docs remain below as legacy notes, but the sections at the top here
+describe the actual sales outreach project.
+
+## Overview
+
+This environment simulates B2B outreach tasks for an LLM agent:
+
+1. `cold_email` - write one personalized cold email
+2. `full_sequence` - send a 3-step outreach sequence
+3. `objection_handling` - recover from a lead objection and re-engage
+
+The environment is deterministic. Rewards come from local graders in `server/graders.py`, not from an LLM judge.
+
+## Grading
+
+The environment returns rewards in the range `0.0` to `1.0`.
+
+### Cold Email
+
+Scored on:
+
+- personalization
+- CTA
+- non-generic phrasing
+- body length
+- subject quality
+
+### Full Sequence
+
+Scored on:
+
+- personalization
+- correct channel for each step
+- no repetition
+- CTA
+- value add on the final step
+
+### Objection Handling
+
+Scored on:
+
+- acknowledging the objection
+- objection-specific recovery strategy
+- re-engagement with a new CTA
+- personalization
+
+## Environment Files
+
+Required files for submission:
+
+- `inference.py`
+- `server/app.py`
+- `server/sales_outreach_env_environment.py`
+- `server/graders.py`
+- `server/leads.py`
+- `models.py`
+- `openenv.yaml`
+- `README.md`
+- `.env.example`
+- `.gitignore`
+- `pre_validate.sh`
+
+Not required:
+
+- `temp_verify_http_contract.py` is not required for submission and is not part of the current repo
+
+## Environment Variables
+
+Copy `.env.example` to `.env` and fill in your local values.
+
+Required:
+
+- `API_BASE_URL` - OpenAI-compatible LLM endpoint
+- `MODEL_NAME` - model name for inference
+- `HF_TOKEN` - API key used by `inference.py`
+- `LOCAL_IMAGE_NAME` - Docker image name used by `inference.py`
+
+Notes:
+
+- `API_BASE_URL` and `MODEL_NAME` have defaults in `inference.py`
+- `HF_TOKEN` does not have a default
+- keep `.env` out of Git
+
+## How To Run
+
+### 1. Create `.env`
+
+```powershell
+copy .env.example .env
+```
+
+### 2. Start the environment locally
+
+```powershell
+uvicorn server.app:app --host 0.0.0.0 --port 8000 --reload
+```
+
+### 3. Run inference
+
+```powershell
+python inference.py
+```
+
+### 4. Build and run Docker
+
+```powershell
+docker build -t sales-outreach-env .
+docker run -p 8000:8000 sales-outreach-env
+```
+
+### 5. Validate before submission
+
+```bash
+bash pre_validate.sh https://<your-direct-space>.hf.space .
+```
+
+### 6. Deploy to Hugging Face Spaces
+
+```powershell
+hf auth login
+openenv push --repo-id SrijaVuppala/sales-outreach-env
+```
+
+## Project Structure
+
+```text
+sales_outreach_env/
+├── .env.example
+├── .gitignore
+├── README.md
+├── inference.py
+├── models.py
+├── openenv.yaml
+├── pre_validate.sh
+├── requirements.txt
+├── server/
+│   ├── app.py
+│   ├── graders.py
+│   ├── leads.py
+│   └── sales_outreach_env_environment.py
+└── uv.lock
+```
+
+## Notes
+
+- `HF_TOKEN` is used by `inference.py` as the API key for the OpenAI-compatible endpoint.
+- Use `hf auth login` separately for Hugging Face deployment authentication.
+- Keep secrets only in your local `.env`.
+- The older starter-template echo docs below are legacy and can be ignored for submission.
+
 ---
 title: Sales Outreach Env Environment Server
 emoji: 🎳
@@ -241,8 +396,10 @@ Copy `.env.example` to `.env` and fill in your local values before running `infe
 
 - `API_BASE_URL`
 - `MODEL_NAME`
-- `HF_TOKEN`
+- `HF_TOKEN` for `inference.py`
 - `LOCAL_IMAGE_NAME` is optional
+
+Use `hf auth login` separately for Hugging Face deployment authentication.
 
 ## Project Structure
 
